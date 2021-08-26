@@ -29,10 +29,16 @@ public class ItemController {
 
     // 상품 상세 정보 페이지
     @GetMapping("/{itemId}")
-    public String item(@PathVariable Long itemId, Model model) {
+    public String item(@PathVariable Long itemId, Model model) throws Exception {
         Optional<Item> optional = itemRespository.findById(itemId);
+        Item item;
         // Optional에서 객체 꺼내기
-        Item item = optional.get();
+        if (optional.isPresent()) {
+            item = optional.get();
+        } else {
+            throw new Exception();
+        }
+
         model.addAttribute("item", item);
 
         log.info("item={}",item);
