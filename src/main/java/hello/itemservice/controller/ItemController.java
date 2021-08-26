@@ -66,9 +66,17 @@ public class ItemController {
 
     // 수정 폼 요청
     @GetMapping("/{itemId}/edit")
-    public String editForm(@PathVariable Long itemId, Model model) {
+    public String editForm(@PathVariable Long itemId, Model model) throws Exception {
         Optional<Item> optional = itemRespository.findById(itemId);
-        // Optional에서 객체 꺼내기
+
+        // Optional에서 isPresent()메서드 사용해서 객체 꺼내기
+        Item item;
+        if (optional.isPresent()) {
+            item = optional.get();
+        } else {
+            throw new Exception();
+        }
+
         Item finditem = optional.get();
         model.addAttribute("item", finditem);
 
